@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Distribution & build outputs
+release/
+dist/
+
+# Development logs & artifacts
+artifacts/
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+.env*.local
+!.env.example
+
+# Downloaded audio engine binaries (keep directory & README)
+bin/go-librespot*
+bin/*.tar.gz
+bin/*.zip
+bin/*.exe
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Editor configurations
+.vscode/
+.idea/
+*.swp
+*.swo

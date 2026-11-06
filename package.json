@@ -1,0 +1,102 @@
+{
+  "name": "pocket-spotify-companion",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A small, movable desktop companion for Spotify",
+  "author": "Pocket contributors",
+  "license": "MIT",
+  "homepage": "https://github.com/kawaii-kitsune/pocket",
+  "main": "src/main.cjs",
+  "desktopName": "app.pocket.spotifycompanion.desktop",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "electron .",
+    "debug": "POCKET_DEBUG=1 electron .",
+    "soloist": "node scripts/soloist.cjs",
+    "demo": "electron . --demo",
+    "demo:debug": "POCKET_DEBUG=1 electron . --demo",
+    "preview": "node scripts/preview.cjs",
+    "test": "node --test test/*.test.cjs",
+    "check": "node scripts/check.cjs",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --publish never",
+    "postinstall": "node scripts/download-librespot.cjs || true"
+  },
+  "devDependencies": {
+    "electron": "45.2.3",
+    "electron-builder": "^26.0.12",
+    "happy-dom": "^21.0.4"
+  },
+  "overrides": {
+    "minimatch": "^11.0.4",
+    "glob": "^14.0.3"
+  },
+  "build": {
+    "appId": "app.pocket.spotifycompanion",
+    "productName": "Pocket",
+    "asar": true,
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "bin",
+        "to": "bin"
+      }
+    ],
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "AudioVideo",
+      "maintainer": "Pocket contributors",
+      "icon": "src/assets/icon.png",
+      "syncDesktopName": true,
+      "desktop": {
+        "entry": {
+          "StartupWMClass": "app.pocket.spotifycompanion"
+        }
+      }
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "src/assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "kawaii-kitsune",
+        "repo": "pocket"
+      }
+    ],
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.music",
+      "icon": "src/assets/icon.icns",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist"
+    }
+  },
+  "dependencies": {
+    "@sentry/electron": "^8.3.0",
+    "electron-updater": "^6.8.11"
+  }
+}

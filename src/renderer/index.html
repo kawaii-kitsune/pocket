@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' https://i.scdn.co https://mosaic.scdn.co https://image-cdn-ak.spotifycdn.com https://image-cdn-fa.spotifycdn.com; media-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Pocket · Spotify companion</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <audio id="mpris-audio" loop preload="auto" src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA="></audio>
+  <main class="app">
+    <header class="titlebar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">ııı</span> pocket<span class="brand-dot">.</span></div>
+      <span id="demo-badge" class="badge" hidden>DEMO</span>
+      <span id="user-badge" class="badge user-badge" hidden>PREMIUM</span>
+      <span id="soloist-badge" class="badge soloist-badge" title="Local audio active via Spotify Soloist" hidden>SOLOIST</span>
+      <div class="window-actions">
+        <button id="pin" class="icon-button active" data-icon="pin" title="Always on top" aria-label="Always on top" aria-pressed="true"></button>
+        <button id="compact" class="icon-button" data-icon="collapse" title="Collapse player" aria-label="Collapse player" aria-pressed="false"></button>
+        <button id="minimize" class="icon-button" data-icon="minus" title="Minimize" aria-label="Minimize"></button>
+        <button id="close" class="icon-button close" data-icon="close" title="Close Pocket" aria-label="Close Pocket"></button>
+      </div>
+    </header>
+
+    <section class="player" aria-label="Now playing">
+      <div class="now-playing">
+        <button id="cover-link" class="cover-button" title="Open in Spotify" aria-label="Open current song in Spotify"><img id="cover" src="cover.svg" alt=""></button>
+        <div class="track-info">
+          <div class="eyebrow"><span id="playing-dot" class="status-dot"></span><span id="playing-label">YOUR MUSIC, WITHIN REACH</span></div>
+          <button id="track-link" class="track-title" title="Open in Spotify">A little space for music.</button>
+          <p id="artist" class="artist">Connect Spotify to get started</p>
+          <div id="audio-features" class="audio-features" hidden>
+            <span id="feature-bpm" class="feature-tag" title="Beats per minute">120 BPM</span>
+            <span id="feature-key" class="feature-tag" title="Musical key">C Maj</span>
+            <span id="feature-mood" class="feature-tag" title="Track mood">Energetic</span>
+            <button id="song-radio" class="feature-button" title="Start Song Radio based on this track"><span data-icon="radio"></span>Radio</button>
+          </div>
+        </div>
+        <button id="save" class="icon-button save" data-icon="heart" title="Save to Liked Songs" aria-label="Save to Liked Songs" aria-pressed="false" disabled></button>
+      </div>
+      <div class="progress-row"><span id="elapsed">0:00</span><input id="seek" aria-label="Playback position" type="range" min="0" max="100" value="0" disabled><span id="duration">0:00</span></div>
+      <div class="playback-controls">
+        <button id="shuffle" class="icon-button" data-icon="shuffle" title="Shuffle" aria-label="Shuffle" aria-pressed="false" disabled></button>
+        <button id="previous" class="icon-button transport" data-icon="previous" title="Previous track" aria-label="Previous track" disabled></button>
+        <button id="play" class="play-button" data-icon="play" title="Play (Space)" aria-label="Play" disabled></button>
+        <button id="next" class="icon-button transport" data-icon="next" title="Next track" aria-label="Next track" disabled></button>
+        <button id="repeat" class="icon-button" data-icon="repeat" title="Repeat off" aria-label="Repeat off" aria-pressed="false" disabled></button>
+      </div>
+      <div class="volume-row">
+        <button id="device-shortcut" class="device-shortcut"><span data-icon="device"></span><span id="device-name">Choose a device</span></button>
+        <button id="mute" class="icon-button volume-mute" data-icon="volume" title="Mute (M)" aria-label="Mute" disabled></button>
+        <input id="volume" aria-label="Volume" type="range" min="0" max="100" value="50" disabled>
+      </div>
+    </section>
+
+    <div id="expanded" class="expanded">
+      <nav class="tabs" aria-label="Browse Spotify">
+        <button class="tab active" data-tab="search" aria-current="page"><span data-icon="search"></span>Search</button>
+        <button class="tab" data-tab="library"><span data-icon="library"></span>Library</button>
+        <button class="tab" data-tab="queue"><span data-icon="queue"></span>Queue</button>
+        <button class="tab" data-tab="recent"><span data-icon="refresh"></span>Recent</button>
+        <button class="tab" data-tab="top"><span data-icon="sparkle"></span>Top</button>
+        <button class="tab" data-tab="lyrics"><span data-icon="music"></span>Lyrics</button>
+        <button class="tab" data-tab="devices"><span data-icon="device"></span>Devices</button>
+      </nav>
+
+      <section id="browse" class="browse" aria-label="Browse content">
+        <div id="lyrics-container" class="lyrics-container" hidden><div id="lyrics-lines" class="lyrics-lines"></div></div>
+        <div id="search-tools" class="search-tools">
+          <div class="search-field"><span data-icon="search"></span><input id="search" type="search" autocomplete="off" placeholder="What do you want to hear?" aria-label="Search Spotify"><kbd>/</kbd></div>
+          <div class="filters" aria-label="Search category">
+            <button class="filter active" data-type="track" aria-pressed="true">Songs</button>
+            <button class="filter" data-type="album" aria-pressed="false">Albums</button>
+            <button class="filter" data-type="artist" aria-pressed="false">Artists</button>
+            <button class="filter" data-type="playlist" aria-pressed="false">Playlists</button>
+          </div>
+        </div>
+        <div id="list-tools" class="list-tools" hidden>
+          <h2 id="list-title">Your library</h2>
+          <select id="library-kind" aria-label="Library category">
+            <option value="library">Liked songs</option>
+            <option value="playlists">Playlists</option>
+            <option value="albums">Saved albums</option>
+            <option value="following">Followed artists</option>
+          </select>
+          <div id="top-tools" class="top-tools" hidden>
+            <select id="top-kind" aria-label="Top items category">
+              <option value="tracks">Top songs</option>
+              <option value="artists">Top artists</option>
+            </select>
+            <select id="top-range" aria-label="Time period">
+              <option value="short_term">Last 4 weeks</option>
+              <option value="medium_term" selected>Last 6 months</option>
+              <option value="long_term">All time</option>
+            </select>
+          </div>
+          <button id="refresh-list" class="icon-button" data-icon="refresh" aria-label="Refresh list" title="Refresh list"></button>
+        </div>
+        <div id="results" class="results" aria-live="polite"></div>
+        <div id="load-more-container" class="load-more-container" hidden><button id="load-more" class="load-more-button" type="button">Load more songs ↓</button></div>
+      </section>
+
+      <section id="settings" class="settings" aria-label="Spotify settings" hidden>
+        <div class="settings-heading"><div><span class="eyebrow">MAKE YOURSELF AT HOME</span><h1>Your music. Your corner.</h1></div><button id="settings-back" class="icon-button" data-icon="close" aria-label="Close settings"></button></div>
+        <p class="settings-copy">Connect Spotify, then keep your music close while you do your thing.</p>
+        <form id="connect-form">
+          <div id="client-id-field">
+            <label for="client-id">Spotify Client ID <button id="dashboard" type="button" class="text-button">Get one ↗</button></label>
+            <input id="client-id" type="text" autocomplete="off" spellcheck="false" maxlength="32" placeholder="Paste your app’s Client ID" pattern="[a-fA-F0-9]{32}">
+            <p class="setup-note">In your Spotify app settings, add this redirect URI:</p><code class="redirect-uri">http://127.0.0.1:43827/callback</code>
+          </div>
+          <button id="connect" class="primary-button" type="submit">Connect with Spotify <span data-icon="arrow"></span></button>
+          <button id="toggle-custom-id" class="text-button custom-id-toggle" type="button" hidden>Custom Client ID ⚙</button>
+          <button id="cancel-login" class="text-button" type="button" hidden>Cancel sign-in</button>
+        </form>
+        <div id="connected-settings" hidden>
+          <p class="connected-message"><span class="status-dot playing"></span>Connected to Spotify</p>
+          <button id="disconnect" class="secondary-button">Disconnect account</button>
+          <div class="settings-option">
+            <label class="checkbox-label" for="enable-receiver">
+              <input id="enable-receiver" type="checkbox">
+              <span>Enable local Connect receiver (Beta)</span>
+            </label>
+            <p class="setup-note">Streams audio directly via bundled go-librespot. Unofficial Connect client.</p>
+          </div>
+          <div id="update-banner" class="settings-option update-banner" hidden>
+            <span id="update-text">A new version is ready.</span>
+            <button id="restart-update" class="secondary-button" type="button">Restart to update</button>
+          </div>
+        </div>
+        <p id="session-note" class="setup-note"></p>
+        <p class="setup-note">Requires Spotify Premium and an app with access to your account. <button id="access" class="text-button">About access ↗</button></p>
+        <button id="try-demo" class="demo-button">Just looking? Try the demo <span>→</span></button>
+      </section>
+
+      <footer><button id="spotify-link" class="text-button spotify-credit">Music on Spotify ↗</button><span id="connection-status">Not connected</span><button id="settings-toggle" class="icon-button" data-icon="settings" title="Settings" aria-label="Settings"></button></footer>
+    </div>
+    <div id="toast" role="status" hidden><span id="toast-text"></span><button id="dismiss-toast" class="icon-button" data-icon="close" aria-label="Dismiss message"></button></div>
+  </main>
+</body>
+</html>
