@@ -5,6 +5,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/kawaii-kitsune/pocket/actions/workflows/ci.yml"><img src="https://github.com/kawaii-kitsune/pocket/actions/workflows/ci.yml/badge.svg" alt="CI Status" /></a>
   <a href="https://github.com/kawaii-kitsune/pocket/actions/workflows/release.yml"><img src="https://github.com/kawaii-kitsune/pocket/actions/workflows/release.yml/badge.svg" alt="Release Build" /></a>
   <a href="https://github.com/kawaii-kitsune/pocket/releases/latest"><img src="https://img.shields.io/github/v/release/kawaii-kitsune/pocket?color=brightgreen" alt="Latest Release" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT" /></a>
