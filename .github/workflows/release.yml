@@ -39,12 +39,10 @@ jobs:
           npm test
           node scripts/ui-smoke.cjs
 
-      - name: Package application
-        uses: electron-userland/electron-builder-action@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          release: true
+      - name: Package & Publish release
+        run: npx electron-builder --publish always
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Apple Developer ID Signing & Notarization
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
