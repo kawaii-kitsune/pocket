@@ -39,16 +39,27 @@ jobs:
           npm test
           node scripts/ui-smoke.cjs
 
-      - name: Package & Publish release
-        run: npx electron-builder --publish always
+      - name: Package & Publish release (UNIX)
+        if: runner.os != 'Windows'
+        run: |
+          [ -z "$CSC_LINK" ] && unset CSC_LINK
+          [ -z "$CSC_KEY_PASSWORD" ] && unset CSC_KEY_PASSWORD
+          [ -z "$APPLE_ID" ] && unset APPLE_ID
+          [ -z "$APPLE_ID_PASSWORD" ] && unset APPLE_ID_PASSWORD
+          [ -z "$APPLE_TEAM_ID" ] && unset APPLE_TEAM_ID
+          npx electron-builder --publish always
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Apple Developer ID Signing & Notarization
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           CSC_LINK: ${{ secrets.CSC_LINK }}
           CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
-          # Windows Authenticode Signing
+
+      - name: Package & Publish release (Windows)
+        if: runner.os == 'Windows'
+        run: npx electron-builder --publish always
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WIN_CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
           WIN_CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
