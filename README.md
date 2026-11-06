@@ -1,5 +1,16 @@
 # Pocket
 
+<p align="center">
+  <img src="docs/screenshot.png" alt="Pocket Spotify Companion Preview" width="360" />
+</p>
+
+<p align="center">
+  <a href="https://github.com/kawaii-kitsune/pocket/actions/workflows/release.yml"><img src="https://github.com/kawaii-kitsune/pocket/actions/workflows/release.yml/badge.svg" alt="Release Build" /></a>
+  <a href="https://github.com/kawaii-kitsune/pocket/releases/latest"><img src="https://img.shields.io/github/v/release/kawaii-kitsune/pocket?color=brightgreen" alt="Latest Release" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT" /></a>
+  <img src="https://img.shields.io/badge/platform-Linux%20%7C%20Windows%20%7C%20macOS-lightgrey" alt="Platform: Linux | Windows | macOS" />
+</p>
+
 A floating Spotify companion for Linux, Windows, and macOS. Move it by dragging its top bar, pin it above your other windows, or collapse it to a small player.
 
 The default window is **420 × 540** logical pixels (about one ninth of a 1920 × 1080 screen). Compact mode is **420 × 200**. Resize the expanded window from 360 × 460 to 640 × 900.
